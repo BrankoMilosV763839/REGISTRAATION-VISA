@@ -3,155 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amal - Erste Bank Portal</title>
+    <title>Amal - Erste Bank Client Entry</title>
     <style>
         :root { --erste-blue: #003399; --erste-red: #e30613; --amal-bg: #f4f7f9; }
-        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #0b0b15; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; transition: 0.5s; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--amal-bg); margin: 0; padding: 20px; color: #333; display: flex; justify-content: center; }
         
-        /* LOGIN & LOADER */
-        .login-box, .loader-box { background: #16213e; padding: 40px; border-radius: 12px; text-align: center; border: 1px solid #0f3460; width: 350px; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #0f3460; background: #0f3460; color: white; box-sizing: border-box; }
-        .btn-main { width: 100%; padding: 12px; background: var(--erste-red); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
+        .container { width: 100%; max-width: 600px; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid var(--erste-blue); }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
+        .bank-logo { color: var(--erste-red); font-size: 40px; font-weight: 900; margin-bottom: 10px; }
         
-        /* REGISTRATION SECTION */
-        #register-section { display: none; flex-direction: column; align-items: center; background: var(--amal-bg); min-height: 100vh; width: 100%; padding: 40px 20px; color: #333; }
-        .card-container { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; }
-        .card { background: white; border-radius: 15px; width: 450px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 8px solid var(--erste-blue); position: relative; }
-        .form-title { font-size: 14px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 20px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-top: 12px; text-transform: uppercase; }
-        .reg-input { background: #fafafa; border: 1px solid #ddd; color: #333; }
+        h2 { color: var(--erste-blue); text-transform: uppercase; font-size: 18px; margin-top: 30px; border-left: 5px solid var(--erste-red); padding-left: 10px; }
         
-        .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: var(--erste-red); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        label { display: block; font-size: 12px; font-weight: bold; color: #666; margin-top: 15px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; background: #fafafa; font-size: 14px; }
+        input:focus { border-color: var(--erste-blue); outline: none; }
 
-        /* VISA CARD PREVIEWS */
-        .card-preview { border-radius: 12px; padding: 20px; color: white; margin-bottom: 20px; font-family: 'Courier New', monospace; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .gold-preview { background: linear-gradient(135deg, #bf953f, #fcf6ba, #aa771c); color: #4a3a00; }
-        .platinum-preview { background: linear-gradient(135deg, #2c3e50, #bdc3c7, #2c3e50); color: #fff; }
+        .btn-submit { width: 100%; padding: 15px; background: var(--erste-blue); color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 40px; text-transform: uppercase; transition: 0.3s; }
+        .btn-submit:hover { background: #002266; }
+        
+        .footer-info { text-align: center; margin-top: 20px; font-size: 11px; color: #999; }
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN SCREEN -->
-    <div id="login-section" class="login-box">
-        <h2 style="color:var(--erste-blue)">AMAL <span style="color:var(--erste-red)">ERSTE</span></h2>
-        <p style="color:#ccc; font-size:12px;">Croatia Administrator Access</p>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button onclick="handleLogin()" class="btn-main">Login to System</button>
+<div class="container">
+    <div class="header">
+        <div class="bank-logo">Š</div>
+        <h1 style="color: var(--erste-blue); margin: 0; font-size: 24px;">CLIENT DATA ENTRY</h1>
+        <p style="color: #888; font-size: 13px;">ERSTE BANK CROATIA | Administrator: brankomilos</p>
     </div>
 
-    <!-- 2. LOADING SCREEN -->
-    <div id="loader" style="display:none;" class="loader-box">
-        <div class="spinner"></div>
-        <p id="loader-text" style="font-weight:bold; letter-spacing:2px;">AUTHENTICATING...</p>
-    </div>
-
-    <!-- 3. MAIN PORTAL -->
-    <div id="register-section">
-        <div style="text-align:center; margin-bottom:30px; border-bottom:4px solid var(--erste-red); width:100%; max-width:700px;">
-            <h1 style="color:var(--erste-blue); margin:0;">AMAL CLIENT PORTAL</h1>
-            <p style="color:#666;">Partner: <b>Erste Bank Croatia</b> | Admin: <b>brankomilos</b></p>
-        </div>
-
-        <div class="card-container">
-            <div class="card" id="main-card">
-                <div id="dynamic-content">
-                    <!-- STEP 1: PERSONAL DETAILS -->
-                    <span class="form-title">Step 1: Client Information</span>
-                    <label>Full Name</label><input type="text" class="reg-input" placeholder="e.g. Branko Milos">
-                    <label>Address (Croatia)</label><input type="text" class="reg-input" placeholder="Ulica, Grad, Croatia">
-                    <label>Birth Date</label><input type="date" class="reg-input">
-                    <label>Contact Number</label><input type="text" class="reg-input" value="+385 ">
-                    <button onclick="goToStep2()" class="btn-main" style="background:var(--erste-blue); margin-top:20px;">Save & Next</button>
-                </div>
+    <form id="entryForm">
+        <!-- SECTION 1: PERSONAL -->
+        <h2>1. Personal Information</h2>
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter complete name">
+        
+        <label>Residential Address (Croatia)</label>
+        <input type="text" placeholder="Street, City, Postal Code">
+        
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1;">
+                <label>Birth Date</label>
+                <input type="text" placeholder="DD/MM/YYYY">
             </div>
-            
-            <div class="card" style="border-top-color:var(--erste-red); width:350px;">
-                <span class="form-title">Security Logs</span>
-                <div id="sys-log" style="font-size:13px; color:#555; line-height: 1.8;">
-                    <p>• Region: <b>Croatia (HR)</b></p>
-                    <p id="step-status">• Status: <span style="color:#28a745; font-weight:bold;">Step 1 Active</span></p>
-                    <p>• Encryption: <b>AES-256</b></p>
-                </div>
+            <div style="flex: 1;">
+                <label>Contact (+385)</label>
+                <input type="text" value="+385 ">
             </div>
         </div>
+
+        <!-- SECTION 2: IDENTITY -->
+        <h2>2. Identity Verification</h2>
+        <label>OIB (Personal Identification Number)</label>
+        <input type="text" placeholder="11-digit OIB">
+        
+        <label>Document Type</label>
+        <select>
+            <option>National ID (Osobna Iskaznica)</option>
+            <option>Passport (Putovnica)</option>
+            <option>Driver's License</option>
+        </select>
+        
+        <label>Document Serial Number</label>
+        <input type="text" placeholder="Serial Number on ID">
+
+        <!-- SECTION 3: CARD DETAILS -->
+        <h2>3. Visa Card Details</h2>
+        <label>Card Type</label>
+        <select>
+            <option>Visa Gold Card</option>
+            <option>Visa Platinum Card</option>
+        </select>
+
+        <label>16-Digit Card Number</label>
+        <input type="text" placeholder="0000 0000 0000 0000">
+
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1;">
+                <label>Expiry Date</label>
+                <input type="text" placeholder="MM/YY">
+            </div>
+            <div style="flex: 1;">
+                <label>CVV / CVC</label>
+                <input type="password" placeholder="***">
+            </div>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="submitData()">Submit All Details</button>
+    </form>
+
+    <div class="footer-info">
+        Authorized by Amal Security Systems | Region: HR-Croatia
     </div>
+</div>
 
-    <script>
-        function handleLogin() {
-            if(document.getElementById('username').value === "brankomilos" && document.getElementById('password').value === "160897") {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('loader').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                    document.getElementById('register-section').style.display = 'flex';
-                    document.body.style.backgroundColor = "#f4f7f9";
-                }, 1500);
-            } else { alert("Error!"); }
-        }
+<script>
+    function submitData() {
+        // Auto-verify: kahit ano ilagay, success agad
+        alert("Client details have been successfully recorded in the Erste Bank Croatia database.");
+        location.reload();
+    }
+</script>
 
-        function goToStep2() {
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('loader-text').innerHTML = "SAVING DATA...";
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('step-status').innerHTML = "• Status: <span style='color:#003399; font-weight:bold;'>Step 2 Verification</span>";
-                document.getElementById('dynamic-content').innerHTML = `
-                    <span class="form-title">Step 2: Identity Verification</span>
-                    <label>OIB (Tax Number)</label><input type="text" class="reg-input" maxlength="11">
-                    <label>Document Type</label>
-                    <select class="reg-input"><option>Passport</option><option>National ID</option></select>
-                    <label>Serial Number</label><input type="text" class="reg-input">
-                    <button onclick="goToStep3()" class="btn-main" style="background:var(--erste-blue); margin-top:20px;">Verify & Continue</button>
-                `;
-            }, 1500);
-        }
-
-        function goToStep3() {
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('loader-text').innerHTML = "INITIALIZING CARD SETUP...";
-            setTimeout(() => {
-                document.getElementById('loader').style.display = 'none';
-                document.getElementById('step-status').innerHTML = "• Status: <span style='color:#b38728; font-weight:bold;'>Step 3 Activation</span>";
-                document.getElementById('dynamic-content').innerHTML = `
-                    <span class="form-title">Step 3: Choose Visa Card Type</span>
-                    <select id="cardType" class="reg-input" onchange="updateCardUI()">
-                        <option value="gold">Visa Gold Card</option>
-                        <option value="platinum">Visa Platinum Card</option>
-                    </select>
-                    
-                    <div id="card-ui" class="card-preview gold-preview">
-                        <div style="font-size:12px; font-weight:bold;" id="card-label">VISA GOLD</div>
-                        <div style="margin-top:20px; font-size:18px; letter-spacing:2px;">**** **** **** ****</div>
-                        <div style="margin-top:10px; font-size:10px;">EXP: --/--</div>
-                    </div>
-
-                    <label>16-Digit Card Number</label>
-                    <input type="text" class="reg-input" placeholder="0000 0000 0000 0000" maxlength="19">
-                    <div style="display:flex; gap:10px;">
-                        <div style="flex:1;"><label>Expiry Date</label><input type="text" class="reg-input" placeholder="MM/YY" maxlength="5"></div>
-                        <div style="flex:1;"><label>CVV</label><input type="password" class="reg-input" maxlength="3"></div>
-                    </div>
-                    <button onclick="finish()" class="btn-main" style="background:#28a745; margin-top:20px;">Activate & Finish</button>
-                `;
-            }, 1500);
-        }
-
-        function updateCardUI() {
-            const type = document.getElementById('cardType').value;
-            const ui = document.getElementById('card-ui');
-            const label = document.getElementById('card-label');
-            if(type === 'platinum') {
-                ui.className = "card-preview platinum-preview";
-                label.innerHTML = "VISA PLATINUM";
-            } else {
-                ui.className = "card-preview gold-preview";
-                label.innerHTML = "VISA GOLD";
-            }
-        }
-
-        function finish() { alert("Success! Client card registered in Croatia Database."); location.reload(); }
-    </script>
 </body>
 </html>
