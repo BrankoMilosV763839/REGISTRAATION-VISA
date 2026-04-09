@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amal - Erste Bank Portal</title>
+    <title>Amal - Erste Bank Client Portal</title>
     <style>
         :root {
             --erste-blue: #003399;
@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             background-color: #0b0b15;
             display: flex;
@@ -22,7 +22,7 @@
             color: white;
         }
 
-        /* --- LOGIN STYLES --- */
+        /* --- LOGIN SECTION --- */
         #login-section {
             background: #16213e;
             padding: 40px;
@@ -33,10 +33,10 @@
             border: 1px solid #0f3460;
         }
 
-        .login-header h2 { color: var(--erste-blue); margin: 0; font-size: 28px; }
+        .login-header h2 { color: var(--erste-blue); margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; }
         .login-header span { color: var(--erste-red); }
 
-        input {
+        .login-input {
             width: 100%;
             padding: 12px;
             margin: 10px 0;
@@ -57,9 +57,10 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 16px;
+            transition: 0.3s;
         }
 
-        /* --- LOADING STYLES --- */
+        /* --- LOADING SECTION --- */
         #loader {
             display: none;
             flex-direction: column;
@@ -77,11 +78,11 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* --- REGISTRATION STYLES --- */
+        /* --- REGISTRATION SECTION (AMAL THEME) --- */
         #register-section {
             display: none;
             width: 100%;
-            max-width: 1000px;
+            max-width: 1100px;
             flex-direction: column;
             align-items: center;
             background-color: var(--amal-bg);
@@ -90,99 +91,109 @@
             color: #333;
         }
 
-        .header-reg { text-align: center; border-bottom: 4px solid var(--erste-red); margin-bottom: 30px; padding-bottom: 10px; width: 100%; max-width: 600px; }
+        .header-reg { text-align: center; border-bottom: 4px solid var(--erste-red); margin-bottom: 35px; padding-bottom: 10px; width: 100%; max-width: 700px; }
 
-        .card-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .card-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
 
         .card {
             background: white;
             border-radius: 15px;
-            width: 400px;
-            padding: 25px;
+            width: 450px;
+            padding: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-top: 8px solid;
+            border-top: 8px solid var(--erste-blue);
             position: relative;
         }
 
-        .gold { border-top-color: #d4af37; }
-        .platinum { border-top-color: #535c68; }
+        .bank-logo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .s-logo { font-size: 32px; color: var(--erste-red); font-weight: 900; }
+        .bank-name { color: var(--erste-blue); font-weight: bold; font-size: 18px; }
 
-        .bank-logo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .s-logo { font-size: 30px; color: var(--erste-red); font-weight: 900; }
+        .form-title { font-size: 14px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 20px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
 
-        label { display: block; font-size: 11px; font-weight: bold; color: #777; margin-bottom: 5px; text-transform: uppercase; }
-        .reg-input { background: #fafafa; border: 1px solid #ddd; color: #333; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .reg-input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; background: #fafafa; color: #333; box-sizing: border-box; font-size: 14px; }
+        .reg-input:focus { border-color: var(--erste-blue); outline: none; }
 
-        .btn-reg { width: 100%; padding: 12px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
-        .gold .btn-reg { background: #d4af37; }
-        .platinum .btn-reg { background: var(--erste-blue); }
+        .btn-reg { width: 100%; padding: 14px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; background: var(--erste-blue); font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+        .btn-reg:hover { background: #002266; }
 
     </style>
 </head>
 <body>
 
-    <!-- 1. LOGIN PAGE -->
+    <!-- 1. LOGIN SCREEN -->
     <div id="login-section">
         <div class="login-header">
             <h2>AMAL <span>ERSTE</span></h2>
-            <p style="color: #ccc; font-size: 14px;">Portal ng Pagpaparehistro</p>
+            <p style="color: #ccc; font-size: 13px; margin-top: 5px;">Secure Administrator Access</p>
         </div>
         <form id="loginForm">
-            <input type="text" id="username" placeholder="Username" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit" class="btn-main">PUMASOK SA SYSTEM</button>
+            <input type="text" id="username" class="login-input" placeholder="Username" required>
+            <input type="password" id="password" class="login-input" placeholder="Password" required>
+            <button type="submit" class="btn-main">LOGIN TO SYSTEM</button>
         </form>
-        <p id="error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 10px; display: none;">Maling credentials!</p>
+        <p id="error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 15px; display: none; font-weight: bold;">Authentication Failed!</p>
     </div>
 
     <!-- 2. LOADING SCREEN -->
     <div id="loader">
         <div class="spinner"></div>
-        <p style="margin-top: 15px; letter-spacing: 2px;">SINUSURI ANG ACCOUNT...</p>
+        <p style="margin-top: 15px; letter-spacing: 3px; font-weight: bold;">AUTHENTICATING...</p>
     </div>
 
-    <!-- 3. REGISTRATION PAGE (AMAL-ERSTE THEME) -->
+    <!-- 3. PERSONAL DETAILS REGISTRATION -->
     <div id="register-section">
         <div class="header-reg">
-            <h1 style="color: var(--erste-blue); margin: 0;">PORTAL NG AMAL</h1>
-            <p style="margin: 5px 0;">Katuwang ang Erste Bank | Admin: <b>brankomilos</b></p>
+            <h1 style="color: var(--erste-blue); margin: 0; letter-spacing: 1px;">AMAL CLIENT PORTAL</h1>
+            <p style="margin: 5px 0; color: #666;">In Partnership with <b>Erste Bank</b> | Session: <b>brankomilos</b></p>
         </div>
 
         <div class="card-container">
-            <!-- GOLD CARD -->
-            <div class="card gold">
+            <!-- CLIENT PERSONAL DETAILS CARD -->
+            <div class="card">
                 <div class="bank-logo">
                     <span class="s-logo">Š</span>
-                    <span style="color: var(--erste-blue); font-weight: bold;">ERSTE Bank</span>
+                    <span class="bank-name">ERSTE Bank</span>
                 </div>
-                <span style="position:absolute; top:15px; right:25px; font-weight:bold; color:#ccc; font-style:italic;">VISA GOLD</span>
-                <form>
-                    <label>Buong Pangalan ng Kliyente</label>
-                    <input type="text" class="reg-input" placeholder="Hal: Branko Milos">
-                    <label>Numero ng Account (IBAN)</label>
-                    <input type="text" class="reg-input" placeholder="HR76 0000...">
-                    <label>Limit sa Credit (Halaga)</label>
-                    <input type="number" class="reg-input" placeholder="Hal: 50000">
-                    <button type="button" class="btn-reg" onclick="alert('Gold Client Registered!')">I-REHISTRO ANG GOLD</button>
+                <span class="form-title">Primary Client Information</span>
+                <form id="clientDetailsForm">
+                    <label>Full Name</label>
+                    <input type="text" class="reg-input" placeholder="e.g. John Smith Doe" required>
+                    
+                    <label>Permanent Address</label>
+                    <input type="text" class="reg-input" placeholder="Street, City, Province" required>
+                    
+                    <label>Birth Date</label>
+                    <input type="date" class="reg-input" required>
+                    
+                    <label>Place of Birth</label>
+                    <input type="text" class="reg-input" placeholder="City / Country">
+
+                    <label>Contact Number</label>
+                    <input type="tel" class="reg-input" placeholder="+63 9XX XXX XXXX" required>
+
+                    <button type="button" class="btn-reg" onclick="alert('Personal Details Saved! Proceeding to next step...')">SAVE PERSONAL DETAILS</button>
                 </form>
             </div>
 
-            <!-- PLATINUM CARD -->
-            <div class="card platinum">
+            <!-- SYSTEM INFORMATION CARD -->
+            <div class="card" style="border-top-color: var(--erste-red);">
                 <div class="bank-logo">
                     <span class="s-logo">Š</span>
-                    <span style="color: var(--erste-blue); font-weight: bold;">ERSTE Bank</span>
+                    <span class="bank-name">System Logs</span>
                 </div>
-                <span style="position:absolute; top:15px; right:25px; font-weight:bold; color:#ccc; font-style:italic;">VISA PLATINUM</span>
-                <form>
-                    <label>Buong Pangalan ng Kliyente</label>
-                    <input type="text" class="reg-input" placeholder="Hal: Branko Milos">
-                    <label>Numero ng ID / Pasaporte</label>
-                    <input type="text" class="reg-input" placeholder="ID Number">
-                    <label>Buwanang Kita (Sahod)</label>
-                    <input type="number" class="reg-input" placeholder="Halaga">
-                    <button type="button" class="btn-reg" onclick="alert('Platinum Client Registered!')">I-REHISTRO ANG PLATINUM</button>
-                </form>
+                <span class="form-title">Registration Guidelines</span>
+                <div style="font-size: 14px; line-height: 1.6; color: #555;">
+                    <p>• Ensure all <b>Personal Details</b> match the presented Government ID.</p>
+                    <p>• Birth dates must be in <b>MM/DD/YYYY</b> format.</p>
+                    <p>• Residential address must include the <b>Postal Code</b>.</p>
+                    <p>• All registered data is encrypted via <b>Amal Security Protocols</b>.</p>
+                </div>
+                <div style="margin-top: 50px; padding: 15px; background: #f0f0f0; border-radius: 8px; font-size: 12px; color: #888; text-align: center;">
+                    System Status: <span style="color: #28a745; font-weight: bold;">ONLINE</span><br>
+                    Registration Code: <span style="font-weight: bold;">AMAL-2026-X839</span>
+                </div>
             </div>
         </div>
     </div>
@@ -198,16 +209,15 @@
             const registerSection = document.getElementById('register-section');
             const errorMsg = document.getElementById('error-msg');
 
+            // Admin Credentials
             if (user === "brankomilos" && pass === "160897") {
-                // Itago ang login, ipakita ang loader
                 loginSection.style.display = 'none';
                 loader.style.display = 'flex';
                 
-                // Maghintay ng 2 seconds bago ipakita ang cards
                 setTimeout(() => {
                     loader.style.display = 'none';
                     registerSection.style.display = 'flex';
-                    document.body.style.backgroundColor = "#f4f7f9"; // Palitan ang background ng Amal theme
+                    document.body.style.backgroundColor = "#f4f7f9";
                 }, 2000);
             } else {
                 errorMsg.style.display = 'block';
