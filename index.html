@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="tl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amal - Erste Bank Pagpaparehistro</title>
+    <title>Amal - Erste Bank Portal</title>
     <style>
         :root {
             --erste-blue: #003399;
@@ -12,167 +11,209 @@
             --amal-bg: #f4f7f9;
         }
 
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: var(--amal-bg); 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 40px 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 4px solid var(--erste-red);
-            padding-bottom: 10px;
-        }
-
-        .header h1 { color: var(--erste-blue); margin: 0; font-size: 32px; }
-        .header p { color: #555; margin: 5px 0; font-weight: bold; }
-
-        .container {
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            background-color: #0b0b15;
             display: flex;
-            gap: 30px;
-            max-width: 1100px;
-            width: 100%;
             justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            width: 450px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            position: relative;
-            border-top: 8px solid;
-        }
-
-        .gold-theme { border-top-color: #d4af37; }
-        .platinum-theme { border-top-color: #535c68; }
-
-        .bank-logo {
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            min-height: 100vh;
+            color: white;
         }
 
-        .bank-logo .s-logo {
-            font-size: 30px;
-            color: var(--erste-red);
-            font-weight: 900;
+        /* --- LOGIN STYLES --- */
+        #login-section {
+            background: #16213e;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 350px;
+            text-align: center;
+            border: 1px solid #0f3460;
         }
 
-        .bank-name { color: var(--erste-blue); font-weight: bold; font-size: 18px; }
-
-        label { 
-            display: block; 
-            font-size: 12px; 
-            font-weight: bold; 
-            color: #777; 
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
+        .login-header h2 { color: var(--erste-blue); margin: 0; font-size: 28px; }
+        .login-header span { color: var(--erste-red); }
 
         input {
             width: 100%;
             padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #0f3460;
+            background: #0f3460;
+            color: white;
             box-sizing: border-box;
-            background: #fafafa;
         }
 
-        .btn-register {
+        .btn-main {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
+            background: var(--erste-red);
+            color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
-            font-size: 16px;
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            margin-top: 10px;
+            font-size: 16px;
         }
 
-        .gold-theme .btn-register { background-color: #d4af37; color: white; }
-        .platinum-theme .btn-register { background-color: var(--erste-blue); color: white; }
-
-        .card-type-label {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-style: italic;
-            font-weight: bold;
-            color: #bbb;
+        /* --- LOADING STYLES --- */
+        #loader {
+            display: none;
+            flex-direction: column;
+            align-items: center;
         }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: var(--erste-red);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* --- REGISTRATION STYLES --- */
+        #register-section {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+            flex-direction: column;
+            align-items: center;
+            background-color: var(--amal-bg);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .header-reg { text-align: center; border-bottom: 4px solid var(--erste-red); margin-bottom: 30px; padding-bottom: 10px; width: 100%; max-width: 600px; }
+
+        .card-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            width: 400px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-top: 8px solid;
+            position: relative;
+        }
+
+        .gold { border-top-color: #d4af37; }
+        .platinum { border-top-color: #535c68; }
+
+        .bank-logo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .s-logo { font-size: 30px; color: var(--erste-red); font-weight: 900; }
+
+        label { display: block; font-size: 11px; font-weight: bold; color: #777; margin-bottom: 5px; text-transform: uppercase; }
+        .reg-input { background: #fafafa; border: 1px solid #ddd; color: #333; }
+
+        .btn-reg { width: 100%; padding: 12px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; }
+        .gold .btn-reg { background: #d4af37; }
+        .platinum .btn-reg { background: var(--erste-blue); }
+
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>PORTAL NG AMAL</h1>
-    <p>Katuwang ang Erste Bank</p>
-</div>
-
-<div class="container">
-    <!-- GOLD VISA CARD -->
-    <div class="card gold-theme">
-        <div class="bank-logo">
-            <span class="s-logo">Š</span>
-            <span class="bank-name">ERSTE Bank</span>
+    <!-- 1. LOGIN PAGE -->
+    <div id="login-section">
+        <div class="login-header">
+            <h2>AMAL <span>ERSTE</span></h2>
+            <p style="color: #ccc; font-size: 14px;">Portal ng Pagpaparehistro</p>
         </div>
-        <span class="card-type-label">VISA GOLD</span>
-        <div class="form-section">
-            <form>
-                <label>Buong Pangalan ng Kliyente</label>
-                <input type="text" placeholder="Halimbawa: Branko Milos" required>
-                
-                <label>Numero ng Account (IBAN)</label>
-                <input type="text" placeholder="I-type ang IBAN dito" required>
-                
-                <label>Limit sa Credit (Halaga)</label>
-                <input type="number" placeholder="Maglagay ng halaga">
-                
-                <button type="button" class="btn-register" onclick="alert('Matagumpay na nairehistro ang Gold Client!')">I-REHISTRO ANG GOLD CLIENT</button>
-            </form>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="btn-main">PUMASOK SA SYSTEM</button>
+        </form>
+        <p id="error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 10px; display: none;">Maling credentials!</p>
+    </div>
+
+    <!-- 2. LOADING SCREEN -->
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; letter-spacing: 2px;">SINUSURI ANG ACCOUNT...</p>
+    </div>
+
+    <!-- 3. REGISTRATION PAGE (AMAL-ERSTE THEME) -->
+    <div id="register-section">
+        <div class="header-reg">
+            <h1 style="color: var(--erste-blue); margin: 0;">PORTAL NG AMAL</h1>
+            <p style="margin: 5px 0;">Katuwang ang Erste Bank | Admin: <b>brankomilos</b></p>
+        </div>
+
+        <div class="card-container">
+            <!-- GOLD CARD -->
+            <div class="card gold">
+                <div class="bank-logo">
+                    <span class="s-logo">Š</span>
+                    <span style="color: var(--erste-blue); font-weight: bold;">ERSTE Bank</span>
+                </div>
+                <span style="position:absolute; top:15px; right:25px; font-weight:bold; color:#ccc; font-style:italic;">VISA GOLD</span>
+                <form>
+                    <label>Buong Pangalan ng Kliyente</label>
+                    <input type="text" class="reg-input" placeholder="Hal: Branko Milos">
+                    <label>Numero ng Account (IBAN)</label>
+                    <input type="text" class="reg-input" placeholder="HR76 0000...">
+                    <label>Limit sa Credit (Halaga)</label>
+                    <input type="number" class="reg-input" placeholder="Hal: 50000">
+                    <button type="button" class="btn-reg" onclick="alert('Gold Client Registered!')">I-REHISTRO ANG GOLD</button>
+                </form>
+            </div>
+
+            <!-- PLATINUM CARD -->
+            <div class="card platinum">
+                <div class="bank-logo">
+                    <span class="s-logo">Š</span>
+                    <span style="color: var(--erste-blue); font-weight: bold;">ERSTE Bank</span>
+                </div>
+                <span style="position:absolute; top:15px; right:25px; font-weight:bold; color:#ccc; font-style:italic;">VISA PLATINUM</span>
+                <form>
+                    <label>Buong Pangalan ng Kliyente</label>
+                    <input type="text" class="reg-input" placeholder="Hal: Branko Milos">
+                    <label>Numero ng ID / Pasaporte</label>
+                    <input type="text" class="reg-input" placeholder="ID Number">
+                    <label>Buwanang Kita (Sahod)</label>
+                    <input type="number" class="reg-input" placeholder="Halaga">
+                    <button type="button" class="btn-reg" onclick="alert('Platinum Client Registered!')">I-REHISTRO ANG PLATINUM</button>
+                </form>
+            </div>
         </div>
     </div>
 
-    <!-- PLATINUM VISA CARD -->
-    <div class="card platinum-theme">
-        <div class="bank-logo">
-            <span class="s-logo">Š</span>
-            <span class="bank-name">ERSTE Bank</span>
-        </div>
-        <span class="card-type-label">VISA PLATINUM</span>
-        <div class="form-section">
-            <form>
-                <label>Buong Pangalan ng Kliyente</label>
-                <input type="text" placeholder="Halimbawa: Branko Milos" required>
-                
-                <label>ID o Numero ng Pasaporte</label>
-                <input type="text" placeholder="Ilagay ang ID number" required>
-                
-                <label>Buwanang Kita (Sahod)</label>
-                <input type="number" placeholder="Maglagay ng halaga">
-                
-                <button type="button" class="btn-register" onclick="alert('Matagumpay na nairehistro ang Platinum Client!')">I-REHISTRO ANG PLATINUM CLIENT</button>
-            </form>
-        </div>
-    </div>
-</div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            
+            const loginSection = document.getElementById('login-section');
+            const loader = document.getElementById('loader');
+            const registerSection = document.getElementById('register-section');
+            const errorMsg = document.getElementById('error-msg');
 
-<div style="margin-top: 40px; color: #999; font-size: 12px;">
-    Naka-login bilang administrator: <strong>brankomilos</strong>
-</div>
+            if (user === "brankomilos" && pass === "160897") {
+                // Itago ang login, ipakita ang loader
+                loginSection.style.display = 'none';
+                loader.style.display = 'flex';
+                
+                // Maghintay ng 2 seconds bago ipakita ang cards
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    registerSection.style.display = 'flex';
+                    document.body.style.backgroundColor = "#f4f7f9"; // Palitan ang background ng Amal theme
+                }, 2000);
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        });
+    </script>
 
 </body>
 </html>
