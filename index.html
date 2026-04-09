@@ -3,227 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amal - Erste Bank Client Portal</title>
+    <title>Amal - Erste Bank Portal</title>
     <style>
-        :root {
-            --erste-blue: #003399;
-            --erste-red: #e30613;
-            --amal-bg: #f4f7f9;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background-color: #0b0b15;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: white;
-        }
-
-        /* --- LOGIN SECTION --- */
-        #login-section {
-            background: #16213e;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            width: 350px;
-            text-align: center;
-            border: 1px solid #0f3460;
-        }
-
-        .login-header h2 { color: var(--erste-blue); margin: 0; font-size: 28px; text-transform: uppercase; letter-spacing: 2px; }
-        .login-header span { color: var(--erste-red); }
-
-        .login-input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: 1px solid #0f3460;
-            background: #0f3460;
-            color: white;
-            box-sizing: border-box;
-        }
-
-        .btn-main {
-            width: 100%;
-            padding: 12px;
-            background: var(--erste-red);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        /* --- LOADING SECTION --- */
-        #loader {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .spinner {
-            border: 4px solid rgba(255,255,255,0.1);
-            border-left-color: var(--erste-red);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
+        :root { --erste-blue: #003399; --erste-red: #e30613; --amal-bg: #f4f7f9; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: #0b0b15; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: white; }
+        
+        /* LOGIN & LOADING STYLES */
+        .login-box, .loader-box { background: #16213e; padding: 40px; border-radius: 12px; text-align: center; border: 1px solid #0f3460; width: 350px; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 6px; border: 1px solid #0f3460; background: #0f3460; color: white; box-sizing: border-box; }
+        .btn-main { width: 100%; padding: 12px; background: var(--erste-red); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        
+        /* REGISTRATION STYLES */
+        #register-section { display: none; flex-direction: column; align-items: center; background: var(--amal-bg); min-height: 100vh; width: 100%; padding: 40px 20px; color: #333; }
+        .card-container { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .card { background: white; border-radius: 15px; width: 450px; padding: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 8px solid var(--erste-blue); position: relative; }
+        .form-title { font-size: 14px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 20px; display: block; border-bottom: 1px solid #eee; }
+        label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-top: 10px; text-transform: uppercase; }
+        .reg-input { background: #fafafa; border: 1px solid #ddd; color: #333; }
+        
+        .spinner { border: 4px solid rgba(255,255,255,0.1); border-left-color: var(--erste-red); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
         @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* --- REGISTRATION SECTION (AMAL THEME) --- */
-        #register-section {
-            display: none;
-            width: 100%;
-            max-width: 1100px;
-            flex-direction: column;
-            align-items: center;
-            background-color: var(--amal-bg);
-            min-height: 100vh;
-            padding: 40px 20px;
-            color: #333;
-        }
-
-        .header-reg { text-align: center; border-bottom: 4px solid var(--erste-red); margin-bottom: 35px; padding-bottom: 10px; width: 100%; max-width: 700px; }
-
-        .card-container { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            width: 450px;
-            padding: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-top: 8px solid var(--erste-blue);
-            position: relative;
-        }
-
-        .bank-logo { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .s-logo { font-size: 32px; color: var(--erste-red); font-weight: 900; }
-        .bank-name { color: var(--erste-blue); font-weight: bold; font-size: 18px; }
-
-        .form-title { font-size: 14px; font-weight: bold; color: #888; text-transform: uppercase; margin-bottom: 20px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-
-        label { display: block; font-size: 11px; font-weight: bold; color: #555; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        .reg-input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 5px; background: #fafafa; color: #333; box-sizing: border-box; font-size: 14px; }
-        .reg-input:focus { border-color: var(--erste-blue); outline: none; }
-
-        .btn-reg { width: 100%; padding: 14px; border: none; border-radius: 6px; color: white; font-weight: bold; cursor: pointer; background: var(--erste-blue); font-size: 14px; text-transform: uppercase; transition: 0.3s; }
-        .btn-reg:hover { background: #002266; }
-
     </style>
 </head>
 <body>
 
     <!-- 1. LOGIN SCREEN -->
-    <div id="login-section">
-        <div class="login-header">
-            <h2>AMAL <span>ERSTE</span></h2>
-            <p style="color: #ccc; font-size: 13px; margin-top: 5px;">Secure Administrator Access</p>
-        </div>
-        <form id="loginForm">
-            <input type="text" id="username" class="login-input" placeholder="Username" required>
-            <input type="password" id="password" class="login-input" placeholder="Password" required>
-            <button type="submit" class="btn-main">LOGIN TO SYSTEM</button>
-        </form>
-        <p id="error-msg" style="color: #ff4d4d; font-size: 13px; margin-top: 15px; display: none; font-weight: bold;">Authentication Failed!</p>
+    <div id="login-section" class="login-box">
+        <h2 style="color:var(--erste-blue)">AMAL <span style="color:var(--erste-red)">ERSTE</span></h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="handleLogin()" class="btn-main">LOGIN TO SYSTEM</button>
     </div>
 
     <!-- 2. LOADING SCREEN -->
-    <div id="loader">
+    <div id="loader" style="display:none;" class="loader-box">
         <div class="spinner"></div>
-        <p style="margin-top: 15px; letter-spacing: 3px; font-weight: bold;">AUTHENTICATING...</p>
+        <p id="loader-text">AUTHENTICATING...</p>
     </div>
 
-    <!-- 3. PERSONAL DETAILS REGISTRATION -->
+    <!-- 3. MAIN PORTAL -->
     <div id="register-section">
-        <div class="header-reg">
-            <h1 style="color: var(--erste-blue); margin: 0; letter-spacing: 1px;">AMAL CLIENT PORTAL</h1>
-            <p style="margin: 5px 0; color: #666;">In Partnership with <b>Erste Bank</b> | Session: <b>brankomilos</b></p>
+        <div style="text-align:center; margin-bottom:30px; border-bottom:4px solid var(--erste-red); width:100%; max-width:600px;">
+            <h1 style="color:var(--erste-blue); margin:0;">AMAL CLIENT PORTAL</h1>
+            <p style="color:#666;">Croatia Region | Session: brankomilos</p>
         </div>
 
         <div class="card-container">
-            <!-- CLIENT PERSONAL DETAILS CARD -->
-            <div class="card">
-                <div class="bank-logo">
-                    <span class="s-logo">Š</span>
-                    <span class="bank-name">ERSTE Bank</span>
+            <div class="card" id="main-card">
+                <div id="dynamic-content">
+                    <span class="form-title">Step 1: Personal Information</span>
+                    <label>Full Name</label><input type="text" class="reg-input" placeholder="Branko Milos">
+                    <label>Address</label><input type="text" class="reg-input" placeholder="Ulica, Grad, Croatia">
+                    <label>Birth Date</label><input type="date" class="reg-input">
+                    <label>Contact Number</label><input type="text" class="reg-input" value="+385 ">
+                    <button onclick="goToStep2()" class="btn-main" style="background:var(--erste-blue); margin-top:20px;">SAVE & NEXT STEP</button>
                 </div>
-                <span class="form-title">Primary Client Information</span>
-                <form id="clientDetailsForm">
-                    <label>Full Name</label>
-                    <input type="text" class="reg-input" placeholder="e.g. John Smith Doe" required>
-                    
-                    <label>Permanent Address</label>
-                    <input type="text" class="reg-input" placeholder="Street, City, Province" required>
-                    
-                    <label>Birth Date</label>
-                    <input type="date" class="reg-input" required>
-                    
-                    <label>Place of Birth</label>
-                    <input type="text" class="reg-input" placeholder="City / Country">
-
-                    <label>Contact Number</label>
-                    <input type="tel" class="reg-input" placeholder="+63 9XX XXX XXXX" required>
-
-                    <button type="button" class="btn-reg" onclick="alert('Personal Details Saved! Proceeding to next step...')">SAVE PERSONAL DETAILS</button>
-                </form>
             </div>
-
-            <!-- SYSTEM INFORMATION CARD -->
-            <div class="card" style="border-top-color: var(--erste-red);">
-                <div class="bank-logo">
-                    <span class="s-logo">Š</span>
-                    <span class="bank-name">System Logs</span>
-                </div>
-                <span class="form-title">Registration Guidelines</span>
-                <div style="font-size: 14px; line-height: 1.6; color: #555;">
-                    <p>• Ensure all <b>Personal Details</b> match the presented Government ID.</p>
-                    <p>• Birth dates must be in <b>MM/DD/YYYY</b> format.</p>
-                    <p>• Residential address must include the <b>Postal Code</b>.</p>
-                    <p>• All registered data is encrypted via <b>Amal Security Protocols</b>.</p>
-                </div>
-                <div style="margin-top: 50px; padding: 15px; background: #f0f0f0; border-radius: 8px; font-size: 12px; color: #888; text-align: center;">
-                    System Status: <span style="color: #28a745; font-weight: bold;">ONLINE</span><br>
-                    Registration Code: <span style="font-weight: bold;">AMAL-2026-X839</span>
+            
+            <!-- SYSTEM LOGS CARD -->
+            <div class="card" style="border-top-color:var(--erste-red); width:350px;">
+                <span class="form-title">System Status</span>
+                <div id="sys-log" style="font-size:13px; color:#555;">
+                    <p>• Region: <b>Croatia (HR)</b></p>
+                    <p id="step-status">• Current: <b>Step 1 - Active</b></p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const user = document.getElementById('username').value;
-            const pass = document.getElementById('password').value;
-            
-            const loginSection = document.getElementById('login-section');
-            const loader = document.getElementById('loader');
-            const registerSection = document.getElementById('register-section');
-            const errorMsg = document.getElementById('error-msg');
-
-            // Admin Credentials
-            if (user === "brankomilos" && pass === "160897") {
-                loginSection.style.display = 'none';
-                loader.style.display = 'flex';
-                
+        function handleLogin() {
+            if(document.getElementById('username').value === "brankomilos" && document.getElementById('password').value === "160897") {
+                document.getElementById('login-section').style.display = 'none';
+                document.getElementById('loader').style.display = 'block';
                 setTimeout(() => {
-                    loader.style.display = 'none';
-                    registerSection.style.display = 'flex';
+                    document.getElementById('loader').style.display = 'none';
+                    document.getElementById('register-section').style.display = 'flex';
                     document.body.style.backgroundColor = "#f4f7f9";
-                }, 2000);
-            } else {
-                errorMsg.style.display = 'block';
+                }, 1500);
             }
-        });
-    </script>
+        }
 
+        function goToStep2() {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('loader-text').innerHTML = "SAVING PERSONAL DATA...";
+            document.getElementById('register-section').style.opacity = "0.5";
+            
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('register-section').style.opacity = "1";
+                document.getElementById('step-status').innerHTML = "• Current: <b>Step 2 - Verification</b>";
+                document.getElementById('dynamic-content').innerHTML = `
+                    <span class="form-title">Step 2: Identity Verification</span>
+                    <label>OIB (Personal Identification Number)</label>
+                    <input type="text" class="reg-input" placeholder="Enter 11-digit OIB" maxlength="11">
+                    <label>Document Type</label>
+                    <select class="reg-input">
+                        <option>Passport (Putovnica)</option>
+                        <option>National ID (Osobna Iskaznica)</option>
+                    </select>
+                    <label>Document Number</label>
+                    <input type="text" class="reg-input" placeholder="Serial Number">
+                    <label>Upload ID Photo</label>
+                    <input type="file" class="reg-input">
+                    <button onclick="finish()" class="btn-main" style="background:#28a745; margin-top:20px;">COMPLETE REGISTRATION</button>
+                `;
+            }, 1500);
+        }
+
+        function finish() { alert("Data transmitted to Erste Bank Croatia. Registration Complete!"); }
+    </script>
 </body>
 </html>
